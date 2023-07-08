@@ -41,7 +41,7 @@
 -- @class file
 -- @name AceDB-3.0.lua
 -- @release $Id$
-local ACEDB_MAJOR, ACEDB_MINOR = "AceDB-3.0", 27
+local ACEDB_MAJOR, ACEDB_MINOR = "AceDB-3.0", 28
 local AceDB = LibStub:NewLibrary(ACEDB_MAJOR, ACEDB_MINOR)
 
 if not AceDB then return end -- No upgrade needed
@@ -261,7 +261,7 @@ local factionrealmKey = factionKey .. " - " .. realmKey
 local localeKey = strlower(GetLocale())
 
 local regionTable = { "US", "KR", "EU", "TW", "CN" }
-local regionKey = _G["GetCurrentRegion"] and regionTable[GetCurrentRegion()] or strupper(strsub(GetCVar("realmList"), 1, 2))
+local regionKey = (_G["GetCurrentRegion"] and regionTable[GetCurrentRegion()]) or (_G["GetCurrentRegionName"] and GetCurrentRegionName()) or strupper(strsub(GetCVar("realmList"), 1, 2)) or "TR"
 local factionrealmregionKey = factionrealmKey .. " - " .. regionKey
 
 -- Actual database initialization function

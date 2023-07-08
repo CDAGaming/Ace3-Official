@@ -41,6 +41,7 @@ read_globals = {
 	"GetBuildInfo",
 	"GetContainerItemLink",
 	"GetCurrentRegion",
+	"GetCurrentRegionName",
 	"GetCursorInfo",
 	"GetCVar",
 	"GetFramerate",
