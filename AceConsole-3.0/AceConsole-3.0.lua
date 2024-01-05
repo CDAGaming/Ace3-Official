@@ -51,36 +51,30 @@ end
 -- WoW APIs
 local _G = getfenv() or _G or {}
 
-local Print
-do
-local tmp = {}
-function Print(self, frame, arg)
+local tmp={}
+local Print = vararg(2, function(self,frame,arg)
+	local n=0
 	if self ~= AceConsole then
-		tmp[1] = "|cff33ff99"..tostring(self).."|r:"
-	else
-		tmp[1] = ''
+		n=n+1
+		tmp[n] = "|cff33ff99"..tostring( self ).."|r:"
 	end
-	if type(arg) == "string" then
-		frame:AddMessage(tmp[1]..arg)
-	else	-- arg is table and may contain frame as first element if argument frame is nil
-		local b, e = frame and 1 or 2, tgetn(arg)
-		if e >= b then
-			frame = frame or arg[1]
-			for i=0,e-b do
-				tmp[2+i] = tostring(arg[b+i])
-			end
-			frame:AddMessage(tconcat(tmp," ",1,e-b+2)) -- explicitly, because the length is not affected by assignment
-		end
+	for i=1, tgetn(arg) do
+		n=n+1
+		tmp[n] = tostring(arg[i])
 	end
-end
-end	-- Print
+	frame:AddMessage( tconcat(tmp," ",1,n) )
+end)
 
+--- Print to DEFAULT_CHAT_FRAME or given ChatFrame (anything with an .AddMessage function)
+-- @paramsig [chatframe ,] ...
+-- @param chatframe Custom ChatFrame to print to (or any frame with an .AddMessage function)
+-- @param ... List of any values to be printed
 AceConsole.Print = vararg(1, function(self, arg)
 	local frame = arg[1]
 	if type(frame) == "table" and frame.AddMessage then	-- Is first argument something with an .AddMessage member?
-		return Print(self, frame, select(2, arg))
+		return Print(self, frame, select(2, unpack(arg)))
 	else
-		return Print(self, DEFAULT_CHAT_FRAME, arg)
+		return Print(self, DEFAULT_CHAT_FRAME, unpack(arg))
 	end
 end)
 
@@ -92,7 +86,7 @@ end)
 AceConsole.Printf = vararg(1, function(self, arg)
 	local frame = arg[1]
 	if type(frame) == "table" and frame.AddMessage then	-- Is first argument something with an .AddMessage member?
-		return Print(self, frame, format(select(2, arg)))
+		return Print(self, frame, format(select(2, unpack(arg))))
 	else
 		return Print(self, DEFAULT_CHAT_FRAME, format(unpack(arg)))
 	end
