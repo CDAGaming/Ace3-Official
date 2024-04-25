@@ -13,7 +13,7 @@ local pairs = pairs
 local IsShiftKeyDown, IsControlKeyDown, IsAltKeyDown = IsShiftKeyDown, IsControlKeyDown, IsAltKeyDown
 local CreateFrame, UIParent = CreateFrame, UIParent
 
-local wowMoP, wowClassicRebased, wowTBCRebased, wowWrathRebased
+local wowMoP, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -21,6 +21,7 @@ do
 	wowClassicRebased = (interface >= 11300 and interface < 20000)
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
+	wowCataRebased = (interface >= 40400 and interface < 50000)
 end
 
 --[[-----------------------------------------------------------------------------
@@ -217,7 +218,7 @@ local function Constructor()
 	local name = "AceGUI30KeybindingButton" .. AceGUI:GetNextWidgetNum(Type)
 
 	local frame = CreateFrame("Frame", nil, UIParent)
-	local button = CreateFrame("Button", name, frame, (wowMoP or wowClassicRebased or wowTBCRebased or wowWrathRebased) and "UIPanelButtonTemplate" or "UIPanelButtonTemplate2")
+	local button = CreateFrame("Button", name, frame, (wowMoP or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and "UIPanelButtonTemplate" or "UIPanelButtonTemplate2")
 
 	button:EnableMouse(true)
 	button:EnableMouseWheel(false)

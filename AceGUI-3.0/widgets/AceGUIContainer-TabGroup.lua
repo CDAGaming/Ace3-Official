@@ -23,13 +23,14 @@ wipe = (wipe or function(table)
 	return table
 end)
 
-local wowLegacy, wowDragonflight, wowCata, wowWrath, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased
+local wowLegacy, wowDragonflight, wowCata, wowWrath, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
 	wowClassicRebased = (interface >= 11300 and interface < 20000)
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
+	wowCataRebased = (interface >= 40400 and interface < 50000)
 	wowWrath = (interface >= 30000 and not wowWrathRebased)
 	wowCata = (interface >= 40000)
 	wowThirdLegion = (interface >= 70300)
@@ -239,7 +240,7 @@ Scripts
 local function Tab_OnClick(frame)
 	frame = frame or this
 	if not (frame.selected or frame.disabled) then
-		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased) and 841 or "igCharacterInfoTab") -- SOUNDKIT.IG_CHARACTER_INFO_TAB
+		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 841 or "igCharacterInfoTab") -- SOUNDKIT.IG_CHARACTER_INFO_TAB
 		frame.obj:SelectTab(frame.value)
 	end
 end

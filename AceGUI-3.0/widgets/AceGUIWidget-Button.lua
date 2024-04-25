@@ -33,7 +33,7 @@ local function vararg(n, f)
 	return assert(loadstring(code, "=(vararg)"))()(f)
 end
 
-local wowMoP, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased
+local wowMoP, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -42,6 +42,7 @@ do
 	wowClassicRebased = (interface >= 11300 and interface < 20000)
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
+	wowCataRebased = (interface >= 40400 and interface < 50000)
 end
 
 --[[-----------------------------------------------------------------------------
@@ -50,7 +51,7 @@ Scripts
 local Button_OnClick = vararg(1, function(frame, arg)
 	frame = frame or this
 	AceGUI:ClearFocus()
-	PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased) and 852 or "igMainMenuOption") -- SOUNDKIT.IG_MAINMENU_OPTION
+	PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 852 or "igMainMenuOption") -- SOUNDKIT.IG_MAINMENU_OPTION
 	frame.obj:Fire("OnClick", unpack(arg))
 end)
 
@@ -108,7 +109,7 @@ Constructor
 -------------------------------------------------------------------------------]]
 local function Constructor()
 	local name = "AceGUI30Button" .. AceGUI:GetNextWidgetNum(Type)
-	local frame = CreateFrame("Button", name, UIParent, (wowMoP or wowClassicRebased or wowTBCRebased or wowWrathRebased) and "UIPanelButtonTemplate" or "UIPanelButtonTemplate2")
+	local frame = CreateFrame("Button", name, UIParent, (wowMoP or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and "UIPanelButtonTemplate" or "UIPanelButtonTemplate2")
 	frame:Hide()
 
 	frame:EnableMouse(true)
