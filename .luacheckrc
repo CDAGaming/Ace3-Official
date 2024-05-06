@@ -38,6 +38,7 @@ read_globals = {
 	"ClearCursor",
 	"CreateFont",
 	"CreateFrame",
+	"Enum.SendAddonMessageResult",
 	"GetBuildInfo",
 	"GetContainerItemLink",
 	"GetCurrentRegion",
