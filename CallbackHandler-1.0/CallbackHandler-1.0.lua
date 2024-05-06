@@ -13,7 +13,7 @@ local assert, error, loadstring, unpack = assert, error, loadstring, unpack
 local setmetatable, rawset, rawget = setmetatable, rawset, rawget
 local next, select, pairs, type, tostring = next, select, pairs, type, tostring
 
-local xpcall = xpcall
+local xpcall, securecallfunction = xpcall, securecallfunction
 
 local supports_ellipsis = loadstring("return ...") ~= nil
 local template_args = supports_ellipsis and "{...}" or "arg"
@@ -39,12 +39,11 @@ end
 local function errorhandler(err)
 	return geterrorhandler()(err)
 end
-CallbackHandler.errorhandler = errorhandler
 
 local function CreateDispatcher(argCount)
 	local code = [[
 	local root = LibStub("CallbackHandler-1.0")
-	local next, xpcall, eh = next, xpcall, root.errorhandler
+	local next, xpcall, securecallfunction, eh = next, xpcall, securecallfunction, errorhandler
 
 	local method, ARGS
 	local function call() method(ARGS) end
@@ -56,7 +55,11 @@ local function CreateDispatcher(argCount)
 		local OLD_ARGS = ARGS
 		ARGS = unpack(arg)
 		repeat
-			xpcall(call, eh)
+			if securecallfunction then
+				securecallfunction(call)
+			else
+				xpcall(call, eh)
+			end
 			index, method = next(handlers, index)
 		until not method
 		ARGS = OLD_ARGS
