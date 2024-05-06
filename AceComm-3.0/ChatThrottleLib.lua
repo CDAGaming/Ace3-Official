@@ -72,6 +72,7 @@ local GetTime, GetFramerate = GetTime, GetFramerate
 local math_min, math_max = math.min, math.max
 local strlen, strlower = string.len, string.lower
 local unpack,type,pairs,wipe = unpack,type,pairs,table.wipe
+local securecallfunction = securecallfunction
 
 local supports_ellipsis = loadstring("return ...") ~= nil
 local template_args = supports_ellipsis and "{...}" or "arg"
@@ -442,7 +443,11 @@ function ChatThrottleLib:Despool(Prio)
 
 			-- Notify caller of message submission.
 			if msg.callbackFn then
-				securecallfunction(msg.callbackFn, msg.callbackArg, didSend, sendResult)
+				if securecallfunction then
+					securecallfunction(msg.callbackFn, msg.callbackArg, didSend, sendResult)
+				else
+					msg.callbackFn(msg.callbackArg, didSend, sendResult)
+				end
 			end
 		end
 	end
@@ -582,7 +587,11 @@ function ChatThrottleLib:SendChatMessage(prio, prefix,   text, chattype, languag
 			end
 
 			if callbackFn then
-				securecallfunction(callbackFn, callbackArg, didSend, sendResult)
+				if securecallfunction then
+					securecallfunction(callbackFn, callbackArg, didSend, sendResult)
+				else
+					callbackFn(callbackArg, didSend, sendResult)
+				end
 			end
 
 			return
@@ -621,7 +630,11 @@ local function SendAddonMessageInternal(self, sendFunction, prio, prefix, text, 
 			end
 
 			if callbackFn then
-				securecallfunction(callbackFn, callbackArg, didSend, sendResult)
+				if securecallfunction then
+					securecallfunction(callbackFn, callbackArg, didSend, sendResult)
+				else
+					callbackFn(callbackArg, didSend, sendResult)
+				end
 			end
 
 			return
