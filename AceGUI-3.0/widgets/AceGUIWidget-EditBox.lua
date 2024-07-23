@@ -1,7 +1,7 @@
 --[[-----------------------------------------------------------------------------
 EditBox Widget
 -------------------------------------------------------------------------------]]
-local Type, Version = "EditBox", 28
+local Type, Version = "EditBox", 29
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -246,12 +246,14 @@ local function EditBox_OnReceiveDrag(frame)
 
 	frame = frame or this
 	local self = frame.obj
-	local infoType, id, info = GetCursorInfo()
+	local type, id, info, extra = GetCursorInfo()
 	local name
-	if infoType == "item" then
+	if type == "item" then
 		name = info
-	elseif infoType == "spell" then
-		if GetSpellInfo then
+	elseif type == "spell" then
+        if C_Spell and C_Spell.GetSpellName then
+            name = C_Spell.GetSpellName(extra)
+		elseif GetSpellInfo then
 			name = GetSpellInfo(id, info)
 		else
 			local spellName, rank = GetSpellName(id, info)
@@ -260,7 +262,7 @@ local function EditBox_OnReceiveDrag(frame)
 			end
 			name = spellName
 		end
-	elseif infoType == "macro" then
+	elseif type == "macro" then
 		name = GetMacroInfo(id)
 	end
 	if name then

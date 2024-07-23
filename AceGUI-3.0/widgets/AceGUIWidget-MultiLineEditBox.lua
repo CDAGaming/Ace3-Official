@@ -1,4 +1,4 @@
-local Type, Version = "MultiLineEditBox", 32
+local Type, Version = "MultiLineEditBox", 33
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -273,9 +273,11 @@ local function OnReceiveDrag(self)                                              
 	if not GetCursorInfo then return end
 
 	self = self or this
-	local infoType, id, info = GetCursorInfo()
-	if infoType == "spell" then
-		if GetSpellInfo then
+	local type, id, info, extra = GetCursorInfo()
+	if type == "spell" then
+        if C_Spell and C_Spell.GetSpellName then
+            info = C_Spell.GetSpellName(extra)
+		elseif GetSpellInfo then
 			info = GetSpellInfo(id, info)
 		else
 			local spellName, rank = GetSpellName(id, info)
@@ -284,7 +286,7 @@ local function OnReceiveDrag(self)                                              
 			end
 			info = spellName
 		end
-	elseif infoType ~= "item" then
+	elseif type ~= "item" then
 		return
 	end
 	ClearCursor()
