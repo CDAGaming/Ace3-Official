@@ -60,6 +60,7 @@ read_globals = {
 	"GetTime",
 	"HookScript",
 	"hooksecurefunc",
+	"InCombatLockdown",
 	"issecurevariable",
 	"IsAltKeyDown",
 	"IsControlKeyDown",
