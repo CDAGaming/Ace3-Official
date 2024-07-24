@@ -635,7 +635,7 @@ local function GetFuncName(option)
 end
 do
 	local InCombatLockdown = InCombatLockdown or function ()
-		return true
+		return false
 	end
 	local frame = AceConfigDialog.popup
 	if not frame or oldminor < 81 then
