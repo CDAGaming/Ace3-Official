@@ -10,7 +10,7 @@ local tostring, pairs, tconcat, unpack = tostring, pairs, table.concat, unpack
 local assert, type, error, loadstring = assert, type, error, loadstring
 local gsub, sub = string.gsub, string.sub
 
-local wowThirdLegion, wowLegacy, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
+local wowThirdLegion, wowLegacy, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased, wowMistsRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -20,6 +20,7 @@ do
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
 	wowCataRebased = (interface >= 40400 and interface < 50000)
+	wowMistsRebased = (interface >= 50500 and interface < 60000)
 end
 
 local supports_ellipsis = loadstring("return ...") ~= nil
@@ -236,7 +237,7 @@ local function EditBox_OnEnterPressed(frame)
 	local value = frame:GetText()
 	local cancel = self:Fire("OnEnterPressed", value)
 	if not cancel then
-		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 856 or "igMainMenuOptionCheckBoxOn") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
+		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased or wowMistsRebased) and 856 or "igMainMenuOptionCheckBoxOn") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
 		HideButton(self)
 	end
 end

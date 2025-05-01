@@ -6,7 +6,7 @@ local min, max, floor = math.min, math.max, math.floor
 local pairs, ipairs, type, tostring, format = pairs, ipairs, type, tostring, string.format
 local tsort, tinsert, tgetn = table.sort, table.insert, table.getn
 
-local wowLegacy, wowBfa, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
+local wowLegacy, wowBfa, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased, wowMistsRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -17,6 +17,7 @@ do
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
 	wowCataRebased = (interface >= 40400 and interface < 50000)
+	wowMistsRebased = (interface >= 50500 and interface < 60000)
 end
 
 local setn = function(t,n)
@@ -427,7 +428,7 @@ do
 		frame = frame or this
 		local self = frame.obj
 		if not wowBfa then
-			PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 856 or "igMainMenuOptionCheckBoxOn") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
+			PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased or wowMistsRebased) and 856 or "igMainMenuOptionCheckBoxOn") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
 		end
 		if self.open then
 			self.open = nil

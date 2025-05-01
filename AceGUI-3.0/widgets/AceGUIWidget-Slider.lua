@@ -10,7 +10,7 @@ if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 local min, max, floor = math.min, math.max, math.floor
 local tonumber, pairs, strgsub, format = tonumber, pairs, string.gsub, string.format
 
-local wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
+local wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased, wowMistsRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -19,6 +19,7 @@ do
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
 	wowCataRebased = (interface >= 40400 and interface < 50000)
+	wowMistsRebased = (interface >= 50500 and interface < 60000)
 end
 
 -- WoW APIs
@@ -124,7 +125,7 @@ local function EditBox_OnEnterPressed(frame)
 	end
 
 	if value then
-		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 856 or "igMainMenuOptionCheckBoxOn") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
+		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased or wowMistsRebased) and 856 or "igMainMenuOptionCheckBoxOn") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
 		self.slider:SetValue(value)
 		self:Fire("OnMouseUp", value)
 	end

@@ -23,7 +23,7 @@ wipe = (wipe or function(table)
 	return table
 end)
 
-local wowLegacy, wowDragonflight, wowCata, wowWrath, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
+local wowLegacy, wowDragonflight, wowCata, wowWrath, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased, wowMistsRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -31,6 +31,7 @@ do
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
 	wowCataRebased = (interface >= 40400 and interface < 50000)
+	wowMistsRebased = (interface >= 50500 and interface < 60000)
 	wowWrath = (interface >= 30000 and not wowWrathRebased)
 	wowCata = (interface >= 40000)
 	wowThirdLegion = (interface >= 70300)
@@ -57,7 +58,7 @@ local PanelTemplates_SetDisabledTabState = PanelTemplates_SetDisabledTabState
 local PanelTemplates_SelectTab = PanelTemplates_SelectTab
 local PanelTemplates_DeselectTab = PanelTemplates_DeselectTab
 
-if (wowDragonflight) then
+if (wowDragonflight or wowCataRebased or wowMistsRebased) then
 	PanelTemplates_TabResize = function(tab, padding, absoluteSize, minWidth, maxWidth, absoluteTextSize)
 		local tabName = tab:GetName();
 
@@ -240,7 +241,7 @@ Scripts
 local function Tab_OnClick(frame)
 	frame = frame or this
 	if not (frame.selected or frame.disabled) then
-		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 841 or "igCharacterInfoTab") -- SOUNDKIT.IG_CHARACTER_INFO_TAB
+		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased or wowMistsRebased) and 841 or "igCharacterInfoTab") -- SOUNDKIT.IG_CHARACTER_INFO_TAB
 		frame.obj:SelectTab(frame.value)
 	end
 end
@@ -283,8 +284,8 @@ local methods = {
 
 	["CreateTab"] = function(self, id)
 		local tabname = format("AceGUITabGroup%dTab%d", self.num, id)
-		local tab = CreateFrame("Button", tabname, self.border, wowLegacy and "TabButtonTemplate" or not wowDragonflight and "OptionsFrameTabButtonTemplate" or nil)
-		if wowDragonflight then
+		local tab = CreateFrame("Button", tabname, self.border, wowLegacy and "TabButtonTemplate" or not (wowDragonflight or wowCataRebased or wowMistsRebased) and "OptionsFrameTabButtonTemplate" or nil)
+		if (wowDragonflight or wowCataRebased or wowMistsRebased) then
 			tab:SetSize(115, 24)
 			tab.deselectedTextY = -3
 			tab.selectedTextY = -2
@@ -359,7 +360,7 @@ local methods = {
 			texture:SetTexture("Interface\\ChatFrame\\ChatFrameTab")
 		end
 
-		tab.text = wowDragonflight and tab.Text or _G[tabname .. "Text"]
+		tab.text = (wowDragonflight or wowCataRebased or wowMistsRebased) and tab.Text or _G[tabname .. "Text"]
 		tab.text:ClearAllPoints()
 		tab.text:SetPoint("LEFT", 14, -3)
 		tab.text:SetPoint("RIGHT", -12, -3)

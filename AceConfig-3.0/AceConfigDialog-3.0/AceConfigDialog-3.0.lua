@@ -20,7 +20,7 @@ local pairs, next, type, unpack, ipairs, tconcat = pairs, next, type, unpack, ip
 local rawset, tostring, tonumber = rawset, tostring, tonumber
 local math_min, math_max, math_floor = math.min, math.max, math.floor
 
-local wowLegacy, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
+local wowLegacy, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased, wowMistsRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -30,6 +30,7 @@ do
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
 	wowCataRebased = (interface >= 40400 and interface < 50000)
+	wowMistsRebased = (interface >= 50500 and interface < 60000)
 end
 
 local setn = function(t,n)
@@ -875,7 +876,7 @@ local ActivateControl = AceConfigDialog:vararg(2, function(widget, event, arg)
 		else
 			validationErrorPopup(validated)
 		end
-		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 882 or "igPlayerInviteDecline") -- SOUNDKIT.IG_PLAYER_INVITE_DECLINE || _DECLINE is actually missing from the table
+		PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased or wowMistsRebased) and 882 or "igPlayerInviteDecline") -- SOUNDKIT.IG_PLAYER_INVITE_DECLINE || _DECLINE is actually missing from the table
 		del(info)
 		return true
 	else

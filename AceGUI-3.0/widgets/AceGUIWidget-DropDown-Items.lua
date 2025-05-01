@@ -30,7 +30,7 @@ local function vararg(n, f)
 	return assert(loadstring(code, "=(vararg)"))()(f)
 end
 
-local wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
+local wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased, wowMistsRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -39,6 +39,7 @@ do
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
 	wowCataRebased = (interface >= 40400 and interface < 50000)
+	wowMistsRebased = (interface >= 50500 and interface < 60000)
 end
 
 local function fixlevels(parent)
@@ -384,9 +385,9 @@ do
 		if self.disabled then return end
 		self.value = not self.value
 		if self.value then
-			PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 856 or "igMainMenuOptionCheckBoxOn") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
+			PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased or wowMistsRebased) and 856 or "igMainMenuOptionCheckBoxOn") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
 		else
-			PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 857 or "igMainMenuOptionCheckBoxOff") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF
+			PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased or wowMistsRebased) and 857 or "igMainMenuOptionCheckBoxOff") -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF
 		end
 		UpdateToggle(self)
 		self:Fire("OnValueChanged", self.value)

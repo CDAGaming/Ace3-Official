@@ -33,7 +33,7 @@ local function vararg(n, f)
 	return assert(loadstring(code, "=(vararg)"))()(f)
 end
 
-local wowMoP, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased
+local wowMoP, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased, wowMistsRebased
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -43,6 +43,7 @@ do
 	wowTBCRebased = (interface >= 20500 and interface < 30000)
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
 	wowCataRebased = (interface >= 40400 and interface < 50000)
+	wowMistsRebased = (interface >= 50500 and interface < 60000)
 end
 
 --[[-----------------------------------------------------------------------------
@@ -51,7 +52,7 @@ Scripts
 local Button_OnClick = vararg(1, function(frame, arg)
 	frame = frame or this
 	AceGUI:ClearFocus()
-	PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased) and 852 or "igMainMenuOption") -- SOUNDKIT.IG_MAINMENU_OPTION
+	PlaySound((wowThirdLegion or wowClassicRebased or wowTBCRebased or wowWrathRebased or wowCataRebased or wowMistsRebased) and 852 or "igMainMenuOption") -- SOUNDKIT.IG_MAINMENU_OPTION
 	frame.obj:Fire("OnClick", unpack(arg))
 end)
 
