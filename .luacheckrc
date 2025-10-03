@@ -79,6 +79,8 @@ read_globals = {
 
 	-- FrameXML API
 	"ChatEdit_GetActiveWindow",
+	"ChatEdit_InsertLink",
+	"ChatFrameUtil",
 	"EditBoxGetCursorPosition",
 	"EditBoxSetCursorPosition",
 	"EditBox_OnFocusLost",

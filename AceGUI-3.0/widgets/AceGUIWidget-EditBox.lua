@@ -173,9 +173,12 @@ if not AceGUIEditBoxInsertLink then
 			end
 		end)
 	else
-		hooksecurefunc("ChatEdit_InsertLink", vararg(0, function(arg)
-			return _G.AceGUIEditBoxInsertLink(unpack(arg))
-		end))
+		-- upgradeable hook
+		if ChatFrameUtil and ChatFrameUtil.InsertLink then
+			hooksecurefunc(ChatFrameUtil, "InsertLink", vararg(0, function(arg) return _G.AceGUIEditBoxInsertLink(unpack(arg)) end))
+		elseif ChatEdit_InsertLink then
+			hooksecurefunc("ChatEdit_InsertLink", vararg(0, function(arg) return _G.AceGUIEditBoxInsertLink(unpack(arg)) end))
+		end
 	end
 end
 
