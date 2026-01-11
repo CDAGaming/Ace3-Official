@@ -11,7 +11,7 @@
 -- @release $Id$
 local CallbackHandler = LibStub("CallbackHandler-1.0")
 
-local MAJOR, MINOR = "AceConfigRegistry-3.0", 21
+local MAJOR, MINOR = "AceConfigRegistry-3.0", 22
 local AceConfigRegistry = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConfigRegistry then return end
@@ -113,6 +113,7 @@ local basekeys={
 	func=optmethodfalse,
 	arg={["*"]=true},
 	width=optstringnumber,
+	relWidth=optnumber,
 	-- This key is used by legacy versions of ElvUI --
 	buttonElvUI=optmethodbool,
 }

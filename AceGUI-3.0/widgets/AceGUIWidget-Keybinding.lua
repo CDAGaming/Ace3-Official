@@ -2,7 +2,7 @@
 Keybinding Widget
 Set Keybindings in the Config UI.
 -------------------------------------------------------------------------------]]
-local Type, Version = "Keybinding", 26
+local Type, Version = "Keybinding", 27
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -46,12 +46,18 @@ local function Keybinding_OnClick(frame, button)
 		if self.waitingForKey then
 			frame:EnableKeyboard(false)
 			frame:EnableMouseWheel(false)
+			if frame.EnableGamePadButton then
+				frame:EnableGamePadButton(false)
+			end
 			self.msgframe:Hide()
 			frame:UnlockHighlight()
 			self.waitingForKey = nil
 		else
 			frame:EnableKeyboard(true)
 			frame:EnableMouseWheel(true)
+			if frame.EnableGamePadButton then
+				frame:EnableGamePadButton(true)
+			end
 			self.msgframe:Show()
 			frame:LockHighlight()
 			self.waitingForKey = true
@@ -89,6 +95,9 @@ local function Keybinding_OnKeyDown(frame, key)
 
 		frame:EnableKeyboard(false)
 		frame:EnableMouseWheel(false)
+		if frame.EnableGamePadButton then
+			frame:EnableGamePadButton(false)
+		end
 		self.msgframe:Hide()
 		frame:UnlockHighlight()
 		self.waitingForKey = nil
@@ -140,6 +149,9 @@ local methods = {
 		self:SetDisabled(false)
 		self.button:EnableKeyboard(false)
 		self.button:EnableMouseWheel(false)
+		if self.button.EnableGamePadButton then
+			self.button:EnableGamePadButton(false)
+		end
 	end,
 
 	-- ["OnRelease"] = nil,
@@ -233,6 +245,10 @@ local function Constructor()
 	button:SetPoint("BOTTOMRIGHT", 0, 0)
 	button:SetHeight(24)
 	button:EnableKeyboard(false)
+	if button.EnableGamePadButton then
+		button:SetScript("OnGamePadButtonDown", Keybinding_OnKeyDown)
+		button:EnableGamePadButton(false)
+	end
 
 	local text = button:GetFontString()
 	text:SetPoint("LEFT", 7, 0)
