@@ -2166,7 +2166,7 @@ AceConfigDialog.AddToBlizOptions = AceConfigDialog:vararg(4, function(self, appN
 					-- unfortunately with incoming API changes in 12.0 (and likely classic at some point) this override is no longer possible
 					category.ID = categoryName
 				end
-				group:SetName(categoryName)
+				group:SetName(category.ID)
 				BlizOptionsIDMap[categoryName] = category.ID
 				Settings.RegisterAddOnCategory(category)
 			end
