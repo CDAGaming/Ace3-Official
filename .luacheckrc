@@ -102,6 +102,7 @@ read_globals = {
 	"BANK_CONTAINER",
 	"ChatFontNormal",
 	"CLOSE",
+	"Constants",
 	"DEFAULT_CHAT_FRAME",
 	"FONT_COLOR_CODE_CLOSE",
 	"GameFontDisableSmall",
