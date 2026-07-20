@@ -606,7 +606,7 @@ local methods = {
 		end
 
 		-- We hide the remaining buttons after updating others to avoid a blizzard bug that keeps them interactable even if hidden when hidden before updating the buttons.
-		for i = buttonnum, #buttons do
+		for i = buttonnum, tgetn(buttons) do
 			buttons[i]:Hide()
 		end
 	end,
