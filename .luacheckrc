@@ -91,7 +91,6 @@ read_globals = {
 	"PanelTemplates_SetDisabledTabState",
 	"PanelTemplates_SelectTab",
 	"PanelTemplates_DeselectTab",
-	"SetDesaturation",
 	"Settings",
 	"SpellBook_GetSpellID",
 
