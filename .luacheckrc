@@ -62,6 +62,7 @@ read_globals = {
 	"HookScript",
 	"hooksecurefunc",
 	"InCombatLockdown",
+	"issecretvalue",
 	"issecurevariable",
 	"IsAltKeyDown",
 	"IsControlKeyDown",
