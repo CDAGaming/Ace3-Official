@@ -47,10 +47,14 @@ local AceDB = LibStub:NewLibrary(ACEDB_MAJOR, ACEDB_MINOR)
 if not AceDB then return end -- No upgrade needed
 
 -- Lua APIs
-local strlower, strupper, strsub, format = string.lower, string.upper, string.sub, string.format
+local strlower, strupper, strsub, format, strfind = string.lower, string.upper, string.sub, string.format, string.find
 local type, pairs, next, error = type, pairs, next, error
 local setmetatable, rawset, rawget = setmetatable, rawset, rawget
-local strlenutf8 = strlenutf8
+local strlenutf8 = strlenutf8 or function(str)
+    -- Count UTF-8 multi-byte sequences: each leading byte starts a char
+    local _, n = string.gsub(str or "", "[^\128-\191]", "")
+    return n
+end
 
 -- WoW APIs
 local _G = getfenv() or _G or {}
@@ -283,7 +287,7 @@ local function initdb(sv, defaults, defaultProfile, olddb, parent)
 				sv.profileKeys[charKey] = defaultProfile or charKey
 			else
 				local profileNameLength = strlenutf8(sv.profileKeys[charKey])
-				if profileNameLength == 0 or profileNameLength > 50 or sv.profileKeys[charKey]:find("^ +$") then
+				if profileNameLength == 0 or profileNameLength > 50 or strfind(sv.profileKeys[charKey], "^ +$") then
 					sv.profileKeys[charKey] = defaultProfile or charKey
 				end
 			end
@@ -462,7 +466,7 @@ function DBObjectLib:SetProfile(name)
 		error(format("Usage: AceDBObject:SetProfile(name): 'name' - string expected, got %q.", type(name)), 2)
 	else
 		local profileNameLength = strlenutf8(name)
-		if profileNameLength == 0 or profileNameLength > 50 or name:find("^ +$") then
+		if profileNameLength == 0 or profileNameLength > 50 or strfind(name, "^ +$") then
 			error("Usage: AceDBObject:SetProfile(name): 'name' - string length must be between 1 and 50 characters.", 2)
 		end
 	end
@@ -799,7 +803,7 @@ function AceDB:New(tbl, defaults, defaultProfile)
 	if defaultProfile then
 		if type(defaultProfile) == "string" then
 			local profileNameLength = strlenutf8(defaultProfile)
-			if profileNameLength == 0 or profileNameLength > 50 or defaultProfile:find("^ +$") then
+			if profileNameLength == 0 or profileNameLength > 50 or strfind(defaultProfile, "^ +$") then
 				error("Usage: AceDB:New(tbl, defaults, defaultProfile): 'defaultProfile' - string length must be between 1 and 50 characters.", 2)
 			end
 		elseif defaultProfile ~= true then

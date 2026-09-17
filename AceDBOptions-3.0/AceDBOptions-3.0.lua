@@ -356,7 +356,12 @@ end
 --[[
 	the real options table
 ]]
-local strlenutf8 = strlenutf8
+local strlenutf8 = strlenutf8 or function(str)
+    -- Count UTF-8 multi-byte sequences: each leading byte starts a char
+    local _, n = string.gsub(str or "", "[^\128-\191]", "")
+    return n
+end
+local strfind = string.find
 local optionsTable = {
 	desc = {
 		order = 1,
@@ -396,7 +401,7 @@ local optionsTable = {
 		usage = L["name_too_long"],
 		validate = function(_, text)
 			local length = strlenutf8(text)
-			if length > 50 or length == 0 or text:find("^ +$") then
+			if length > 50 or length == 0 or strfind(text, "^ +$") then
 				return false
 			end
 			return true

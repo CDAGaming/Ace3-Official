@@ -337,7 +337,7 @@ local function keybindingValidateFunc(text)
 	if text == "" then
 		return false
 	end
-	if not text:find("^F%d+$") and text ~= "CAPSLOCK" and text:len() ~= 1 and (text:byte() < 128 or text:len() > 4) and not _G["KEY_" .. text] then
+	if not strfind(text, "^F%d+$") and text ~= "CAPSLOCK" and text:len() ~= 1 and (text:byte() < 128 or text:len() > 4) and not _G["KEY_" .. text] then
 		return false
 	end
 	local s = text
@@ -676,9 +676,9 @@ local function handle(info, inputpos, tab, depth, retfalse)
 		end
 
 		if hasAlpha then
-			if str:len() == 8 and str:find("^%x*$")  then
+			if str:len() == 8 and strfind(str, "^%x*$")  then
 				--parse a hex string
-				r,g,b,a = tonumber(str:sub(1, 2), 16) / 255, tonumber(str:sub(3, 4), 16) / 255, tonumber(str:sub(5, 6), 16) / 255, tonumber(str:sub(7, 8), 16) / 255
+				r,g,b,a = tonumber(strsub(str, 1, 2), 16) / 255, tonumber(strsub(str, 3, 4), 16) / 255, tonumber(strsub(str, 5, 6), 16) / 255, tonumber(strsub(str, 7, 8), 16) / 255
 			else
 				--parse seperate values
 				r,g,b,a = str:match("^([%d%.]+) ([%d%.]+) ([%d%.]+) ([%d%.]+)$")
@@ -703,12 +703,12 @@ local function handle(info, inputpos, tab, depth, retfalse)
 			end
 		else
 			a = 1.0
-			if str:len() == 6 and str:find("^%x*$") then
+			if str:len() == 6 and strfind(str, "^%x*$") then
 				--parse a hex string
-				r,g,b = tonumber(str:sub(1, 2), 16) / 255, tonumber(str:sub(3, 4), 16) / 255, tonumber(str:sub(5, 6), 16) / 255
+				r,g,b = tonumber(strsub(str, 1, 2), 16) / 255, tonumber(strsub(str, 3, 4), 16) / 255, tonumber(strsub(str, 5, 6), 16) / 255
 			else
 				--parse seperate values
-				r,g,b = str:match("^([%d%.]+) ([%d%.]+) ([%d%.]+)$")
+				r,g,b = strmatch(str, "^([%d%.]+) ([%d%.]+) ([%d%.]+)$")
 				r,g,b = tonumber(r), tonumber(g), tonumber(b)
 			end
 			if not (r and g and b) then
