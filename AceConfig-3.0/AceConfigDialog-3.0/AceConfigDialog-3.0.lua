@@ -7,7 +7,7 @@ local LibStub = LibStub
 local gui = LibStub("AceGUI-3.0")
 local reg = LibStub("AceConfigRegistry-3.0")
 
-local MAJOR, MINOR = "AceConfigDialog-3.0", 92
+local MAJOR, MINOR = "AceConfigDialog-3.0", 93
 local AceConfigDialog, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConfigDialog then return end
@@ -639,12 +639,12 @@ do
 		return false
 	end
 	local frame = AceConfigDialog.popup
-	if not frame or oldminor < 81 then
+	if not frame or oldminor < 93 then
 		frame = CreateFrame("Frame", nil, UIParent)
 		AceConfigDialog.popup = frame
 		frame:Hide()
 		frame:SetPoint("CENTER", UIParent, "CENTER")
-		frame:SetWidth(320)
+		frame:SetWidth(400)
 		frame:SetHeight(72)
 		frame:EnableMouse(true) -- Do not allow click-through on the frame
 		frame:SetFrameStrata("TOOLTIP")
@@ -721,11 +721,7 @@ local confirmPopup = AceConfigDialog:vararg(6, function(appName, rootframe, base
 	local frame = AceConfigDialog.popup
 	frame:Show()
 	frame.text:SetText(message)
-	-- From StaticPopup.lua
-	-- local height = 32 + text:GetHeight() + 2;
-	-- height = height + 6 + accept:GetHeight()
-	-- We add 32 + 2 + 6 + 21 (button height) == 61
-	local height = 61 + frame.text:GetHeight()
+	local height = 70 + frame.text:GetHeight()
 	frame:SetHeight(height)
 
 	frame.accept:ClearAllPoints()

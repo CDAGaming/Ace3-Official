@@ -2,7 +2,7 @@
 Label Widget
 Displays text and optionally an icon.
 -------------------------------------------------------------------------------]]
-local Type, Version = "Label", 28
+local Type, Version = "Label", 29
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -145,6 +145,13 @@ local methods = {
 		end
 		UpdateImageAnchor(self)
 	end),
+
+	["SetImageByAtlas"] = function(self, atlasString)
+		self.imageshown = true
+		local image = self.image
+		image:SetAtlas(atlasString)
+		UpdateImageAnchor(self)
+	end,
 
 	["SetFont"] = function(self, font, height, flags)
 		if not self.fontObject then

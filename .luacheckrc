@@ -28,6 +28,7 @@ globals = {
 read_globals = {
 	"geterrorhandler",
 	"table", "string",
+	"strlenutf8",
 
 	"LibStub",
 

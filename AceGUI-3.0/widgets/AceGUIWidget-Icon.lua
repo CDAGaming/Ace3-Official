@@ -1,7 +1,7 @@
 --[[-----------------------------------------------------------------------------
 Icon Widget
 -------------------------------------------------------------------------------]]
-local Type, Version = "Icon", 21
+local Type, Version = "Icon", 22
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -78,6 +78,11 @@ local methods = {
 			end
 		end
 	end),
+
+	["SetImageByAtlas"] = function(self, atlasString)
+		local image = self.image
+		image:SetAtlas(atlasString)
+	end,
 
 	["SetImageSize"] = function(self, width, height)
 		self.image:SetWidth(width)
