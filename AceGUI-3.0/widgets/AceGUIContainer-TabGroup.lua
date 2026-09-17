@@ -23,7 +23,7 @@ wipe = (wipe or function(table)
 	return table
 end)
 
-local wowLegacy, wowDragonflight, wowCata, wowWrath, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased, wowMistsRebased
+local wowLegacy, wowDragonflight, wowCata, wowWrath, wowThirdLegion, wowClassicRebased, wowTBCRebased, wowWrathRebased, wowCataRebased, wowMistsRebased, wowForever
 do
 	local _, build, _, interface = GetBuildInfo()
 	interface = interface or tonumber(build)
@@ -32,6 +32,7 @@ do
 	wowWrathRebased = (interface >= 30400 and interface < 40000)
 	wowCataRebased = (interface >= 40400 and interface < 50000)
 	wowMistsRebased = (interface >= 50500 and interface < 60000)
+	wowForever = (interface >= 16000 and interface < 17000)
 	wowWrath = (interface >= 30000 and not wowWrathRebased)
 	wowCata = (interface >= 40000)
 	wowThirdLegion = (interface >= 70300)
@@ -58,7 +59,7 @@ local PanelTemplates_SetDisabledTabState = PanelTemplates_SetDisabledTabState
 local PanelTemplates_SelectTab = PanelTemplates_SelectTab
 local PanelTemplates_DeselectTab = PanelTemplates_DeselectTab
 
-if (wowDragonflight or wowCataRebased or wowMistsRebased) then
+if (wowDragonflight or wowCataRebased or wowMistsRebased or wowForever) then
 	PanelTemplates_TabResize = function(tab, padding, absoluteSize, minWidth, maxWidth, absoluteTextSize)
 		local tabName = tab:GetName();
 
@@ -284,8 +285,8 @@ local methods = {
 
 	["CreateTab"] = function(self, id)
 		local tabname = format("AceGUITabGroup%dTab%d", self.num, id)
-		local tab = CreateFrame("Button", tabname, self.border, wowLegacy and "TabButtonTemplate" or not (wowDragonflight or wowCataRebased or wowMistsRebased) and "OptionsFrameTabButtonTemplate" or nil)
-		if (wowDragonflight or wowCataRebased or wowMistsRebased) then
+		local tab = CreateFrame("Button", tabname, self.border, wowLegacy and "TabButtonTemplate" or not (wowDragonflight or wowCataRebased or wowMistsRebased or wowForever) and "OptionsFrameTabButtonTemplate" or nil)
+		if (wowDragonflight or wowCataRebased or wowMistsRebased or wowForever) then
 			tab:SetSize(115, 24)
 			tab.deselectedTextY = -3
 			tab.selectedTextY = -2
@@ -360,7 +361,7 @@ local methods = {
 			texture:SetTexture("Interface\\ChatFrame\\ChatFrameTab")
 		end
 
-		tab.text = (wowDragonflight or wowCataRebased or wowMistsRebased) and tab.Text or _G[tabname .. "Text"]
+		tab.text = (wowDragonflight or wowCataRebased or wowMistsRebased or wowForever) and tab.Text or _G[tabname .. "Text"]
 		tab.text:ClearAllPoints()
 		tab.text:SetPoint("LEFT", 14, -3)
 		tab.text:SetPoint("RIGHT", -12, -3)
