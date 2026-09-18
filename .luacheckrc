@@ -32,9 +32,12 @@ read_globals = {
 
 	"LibStub",
 
+	"Enum",
+
 	-- WoW API
 	"Ambiguate",
 	"C_ChatInfo",
+	"C_GameRules",
 	"C_SettingsUtil",
 	"C_Spell",
 	"C_Timer",
