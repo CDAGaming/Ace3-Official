@@ -74,6 +74,7 @@ read_globals = {
 	"IsSpellPassive",
 	"IsShiftKeyDown",
 	"PlaySound",
+	"RegionalUniqueNamesEnabled",
 	"RegisterAddonMessagePrefix",
 	"ReloadUI",
 	"UnitClass",
@@ -81,6 +82,7 @@ read_globals = {
 	"UnitInParty",
 	"UnitInRaid",
 	"UnitName",
+	"UnitNameUnmodified",
 	"UnitRace",
 
 	-- FrameXML API
