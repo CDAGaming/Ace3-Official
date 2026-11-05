@@ -13,7 +13,20 @@ local CreateFrame, UIParent = CreateFrame, UIParent
 
 -- Unfortunately we have no way to realistically detect if a client uses inverted alpha
 -- as no API will tell you. Wrath uses the old colorpicker, era uses the new one, both are inverted
-local INVERTED_ALPHA = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE and WOW_PROJECT_ID ~= WOW_PROJECT_CAMELOT)
+local INVERTED_ALPHA
+
+local wowDragonflight, wowClassicEra, wowWrathRebased, wowCataRebased, wowMistsRebased
+
+do
+	local _, build, _, interface = GetBuildInfo()
+	interface = interface or tonumber(build)
+	wowClassicEra = (interface >= 11500 and interface < 20000)
+	wowWrathRebased = (interface >= 30400 and interface < 40000)
+	wowCataRebased = (interface >= 40400 and interface < 50000)
+	wowMistsRebased = (interface >= 50500 and interface < 60000)
+	wowDragonflight = (interface >= 100000)
+	INVERTED_ALPHA = wowDragonflight or wowClassicEra or wowWrathRebased or wowCataRebased or wowMistsRebased
+end
 
 --[[-----------------------------------------------------------------------------
 Support functions
@@ -63,7 +76,6 @@ local function ColorSwatch_OnClick(frame)
 		ColorPickerFrame:SetFrameStrata("FULLSCREEN_DIALOG")
 		ColorPickerFrame:SetFrameLevel(frame:GetFrameLevel() + 10)
 		ColorPickerFrame:SetClampedToScreen(true)
-		ColorPickerFrame:EnableMouse(true) -- Make sure the background isn't click-through
 
 		if ColorPickerFrame.SetupColorPickerAndShow then -- 10.2.5 color picker overhaul
 			local r2, g2, b2, a2 = self.r, self.g, self.b, (self.a or 1)
@@ -100,6 +112,9 @@ local function ColorSwatch_OnClick(frame)
 			ColorPickerFrame.func = function()
 				local r, g, b = ColorPickerFrame:GetColorRGB()
 				local a = OpacitySliderFrame:GetValue()
+				if not INVERTED_ALPHA then
+					a = 1 - a
+				end
 				ColorCallback(self, r, g, b, a)
 			end
 
@@ -107,6 +122,9 @@ local function ColorSwatch_OnClick(frame)
 			ColorPickerFrame.opacityFunc = function()
 				local r, g, b = ColorPickerFrame:GetColorRGB()
 				local a = OpacitySliderFrame:GetValue()
+				if not INVERTED_ALPHA then
+					a = 1 - a
+				end
 				ColorCallback(self, r, g, b, a, true)
 			end
 
